@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BetaGameDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="arma">
+          <Key>
+            <PropertyRef Name="IdArma" />
+          </Key>
+          <Property Name="IdArma" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArmaDescricao" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Dano" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Durabilidade" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Precisao" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Peso" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Alcance" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TipoMunicaoID" Type="int" Nullable="false" />
+          <Property Name="QtdeMunicao" Type="int" />
+          <Property Name="CategoriaID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DescricaoCategoria" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoMunicao">
+          <Key>
+            <PropertyRef Name="IdTipoMunicao" />
+          </Key>
+          <Property Name="IdTipoMunicao" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DescricaoTipoMunicao" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_arma_tipoArma">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
+          <End Role="arma" Type="Self.arma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="IdCategoria" />
+            </Principal>
+            <Dependent Role="arma">
+              <PropertyRef Name="CategoriaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_arma_tipoMunicao">
+          <End Role="TipoMunicao" Type="Self.TipoMunicao" Multiplicity="1" />
+          <End Role="arma" Type="Self.arma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoMunicao">
+              <PropertyRef Name="IdTipoMunicao" />
+            </Principal>
+            <Dependent Role="arma">
+              <PropertyRef Name="TipoMunicaoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BetaGameDBModelStoreContainer">
+          <EntitySet Name="arma" EntityType="Self.arma" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoMunicao" EntityType="Self.TipoMunicao" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_arma_tipoArma" Association="Self.FK_arma_tipoArma">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="arma" EntitySet="arma" />
+          </AssociationSet>
+          <AssociationSet Name="FK_arma_tipoMunicao" Association="Self.FK_arma_tipoMunicao">
+            <End Role="TipoMunicao" EntitySet="TipoMunicao" />
+            <End Role="arma" EntitySet="arma" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BetaGameDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DescricaoCategoria" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="armas" Relationship="BetaGameDBModel.FK_arma_tipoArma" FromRole="Categoria" ToRole="arma" />
+        </EntityType>
+        <EntityType Name="TipoMunicao">
+          <Key>
+            <PropertyRef Name="IdTipoMunicao" />
+          </Key>
+          <Property Name="IdTipoMunicao" Type="Int32" Nullable="false" />
+          <Property Name="DescricaoTipoMunicao" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="armas" Relationship="BetaGameDBModel.FK_arma_tipoMunicao" FromRole="TipoMunicao" ToRole="arma" />
+        </EntityType>
+        <EntityContainer Name="BetaGameDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categorias" EntityType="Self.Categoria" />
+          <EntitySet Name="TiposMunicoes" EntityType="Self.TipoMunicao" />
+          <EntitySet Name="Armas" EntityType="BetaGameDBModel.Arma" />
+          <AssociationSet Name="FK_arma_tipoArma" Association="BetaGameDBModel.FK_arma_tipoArma">
+            <End Role="Categoria" EntitySet="Categorias" />
+            <End Role="arma" EntitySet="Armas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_arma_tipoMunicao" Association="BetaGameDBModel.FK_arma_tipoMunicao">
+            <End Role="TipoMunicao" EntitySet="TiposMunicoes" />
+            <End Role="arma" EntitySet="Armas" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Arma">
+          <Key>
+            <PropertyRef Name="IdArma" />
+          </Key>
+          <Property Name="IdArma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArmaDescricao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Dano" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Durabilidade" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Precisao" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Peso" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Alcance" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TipoMunicaoID" Type="Int32" Nullable="false" />
+          <Property Name="QtdeMunicao" Type="Int32" />
+          <Property Name="CategoriaID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Categoria" Relationship="BetaGameDBModel.FK_arma_tipoArma" FromRole="arma" ToRole="Categoria" />
+          <NavigationProperty Name="TipoMunicao" Relationship="BetaGameDBModel.FK_arma_tipoMunicao" FromRole="arma" ToRole="TipoMunicao" />
+        </EntityType>
+        <Association Name="FK_arma_tipoArma">
+          <End Type="BetaGameDBModel.Categoria" Role="Categoria" Multiplicity="1" />
+          <End Type="BetaGameDBModel.Arma" Role="arma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="IdCategoria" />
+            </Principal>
+            <Dependent Role="arma">
+              <PropertyRef Name="CategoriaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_arma_tipoMunicao">
+          <End Type="BetaGameDBModel.TipoMunicao" Role="TipoMunicao" Multiplicity="1" />
+          <End Type="BetaGameDBModel.Arma" Role="arma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoMunicao">
+              <PropertyRef Name="IdTipoMunicao" />
+            </Principal>
+            <Dependent Role="arma">
+              <PropertyRef Name="TipoMunicaoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BetaGameDBModelStoreContainer" CdmEntityContainer="BetaGameDBEntities">
+          <EntitySetMapping Name="Categorias">
+            <EntityTypeMapping TypeName="BetaGameDBModel.Categoria">
+              <MappingFragment StoreEntitySet="Categoria">
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="DescricaoCategoria" ColumnName="DescricaoCategoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TiposMunicoes">
+            <EntityTypeMapping TypeName="BetaGameDBModel.TipoMunicao">
+              <MappingFragment StoreEntitySet="TipoMunicao">
+                <ScalarProperty Name="IdTipoMunicao" ColumnName="IdTipoMunicao" />
+                <ScalarProperty Name="DescricaoTipoMunicao" ColumnName="DescricaoTipoMunicao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Armas">
+            <EntityTypeMapping TypeName="BetaGameDBModel.Arma">
+              <MappingFragment StoreEntitySet="arma">
+                <ScalarProperty Name="CategoriaID" ColumnName="CategoriaID" />
+                <ScalarProperty Name="QtdeMunicao" ColumnName="QtdeMunicao" />
+                <ScalarProperty Name="TipoMunicaoID" ColumnName="TipoMunicaoID" />
+                <ScalarProperty Name="Alcance" ColumnName="Alcance" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="Precisao" ColumnName="Precisao" />
+                <ScalarProperty Name="Durabilidade" ColumnName="Durabilidade" />
+                <ScalarProperty Name="Dano" ColumnName="Dano" />
+                <ScalarProperty Name="ArmaDescricao" ColumnName="ArmaDescricao" />
+                <ScalarProperty Name="IdArma" ColumnName="IdArma" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

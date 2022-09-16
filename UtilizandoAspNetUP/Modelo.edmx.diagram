@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b9199fa6be50480fa72b50d9e0b13254" Name="Diagram1" ZoomLevel="131">
+        <EntityTypeShape EntityType="BetaGameDBModel.Categoria" Width="1.5" PointX="6.5" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BetaGameDBModel.TipoMunicao" Width="1.5" PointX="1.625" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BetaGameDBModel.Arma" Width="1.5" PointX="4" PointY="0.625" />
+        <AssociationConnector Association="BetaGameDBModel.FK_arma_tipoArma" />
+        <AssociationConnector Association="BetaGameDBModel.FK_arma_tipoMunicao" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
